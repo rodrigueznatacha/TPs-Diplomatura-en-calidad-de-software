@@ -1,0 +1,21 @@
+# Ignorar carpetas 
+__pycache__/
+*.egg-info/
+
+# Entorno 
+.venv/
+venv/
+.mypy_cache/
+
+# Drivers y Archivos de Selenium
+chromedriver*
+geckodriver*
+
+# Reportes y logs
+*.xml
+*.log
+
+# Archivos de Cypress / Node.js
+node_modules/
+package-lock.json
+npm-debug.log*

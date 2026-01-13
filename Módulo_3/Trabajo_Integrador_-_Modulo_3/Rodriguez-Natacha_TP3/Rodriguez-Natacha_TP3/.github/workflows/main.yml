@@ -1,0 +1,69 @@
+name: TP Integrador - UNTREF - Módulo 3 - CI/CD
+
+on:
+# Se ejecuta cuando hay un push a la rama principal (master/main)
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  # ----------------------------------------
+  # JOB 1: Tests de UI (Python/Selenium/Pytest)
+  # ----------------------------------------
+  ui_tests:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Configurar Python 3.x
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11' # Usamos una version específica para consistencia
+
+    - name: Instalar Dependencias de Python
+      # Se instalan todas las librerías necesarias
+      run: |
+        pip install pytest selenium webdriver-manager pytest-html
+        
+    - name: Ejecutar Tests UI y Generar Reporte HTML
+      # El webdriver-manager se encarga de descargar el chromedriver en el CI
+      run: |
+        pytest punto_3_Selenium_Python/test_integrador.py --html=reporte_ui.html --self-contained-html
+        
+    - name: Subir el Reporte HTML como Artefacto (Evidencia para el TP)
+      uses: actions/upload-artifact@v3
+      with:
+        name: reporte-saucedemo-html
+        path: reporte_ui.html
+
+  # ----------------------------------------
+  # JOB 2: Tests de API (JavaScript/Cypress)
+  # ----------------------------------------
+  api_tests:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Configurar Node.js (Cypress)
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18' 
+
+    - name: Instalar Cypress y Dependencias
+      # Ejecuta la instalación dentro de la carpeta del proyecto JS
+      run: |
+        cd punto_3_Cypress_JS
+        npm install
+        
+    - name: Ejecutar Tests de API con Cypress (PokeAPI)
+      # Ejecución sin interfaz, ideal para CI
+      run: |
+        cd punto_3_Cypress_JS
+        npx cypress run --spec cypress/e2e/api_tests.cy.js --reporter mochawesome --reporter-options reportDir=cypress/reports/html,overwrite=false,html=true,json=false
+        
+    - name: Subir Evidencia de Ejecución 
+      uses: actions/upload-artifact@v3
+      with:
+        name: reporte-PokeAPI-mochawesome
+        path: punto_3_Cypress_JS/cypress/reports/html/
