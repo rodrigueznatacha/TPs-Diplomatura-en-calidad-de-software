@@ -1,3 +1,7 @@
+<div align="center">
+  <img src="Gemini_Generated_Image_vykbmtvykbmtvykb.png" width="100%" alt="Hola Soy Natacha Rodriguez" />
+</div>
+
 # 🚀 Portafolio - Diplomatura en Calidad de Software
 
 Este repositorio contiene la colección de Trabajos Prácticos (TPs) realizados durante la **Diplomatura en Calidad de Software - UNTREF**. Aquí se documenta el recorrido desde el Testing Manual, la Automatización de pruebas y testing de videojuegos e IA.
